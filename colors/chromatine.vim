@@ -1,231 +1,194 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.0.1
+" Version: 0.1.0
 " Source: https://github.com/casr/vim-colors-chromatine
-" Modified: 2020 Apr 30
+" Modified: 2020 May 3
 
-" This scheme is split into three parts:
-"
-"   1) monochrome (a useful fallback for consoles)
-"   2) if 256 colours available and NO_COLOR is unset
-"
-" :h highlight-groups
-" :h group-name
-" :h cterm-colors
-" Reference: $VIMRUNTIME/colors/README.txt
-" Reference: $VIMRUNTIME/colors/default.vim
-" Reference: $VIMRUNTIME/syntax/syncolor.vim
-
-hi clear
-if exists('syntax_on')
-	syntax reset
-endif
+" Resets highlighting groups to defaults and then removes all colour
+runtime colors/normalise.vim
 
 let g:colors_name = 'chromatine'
 
-let s:has_color = has('gui_running') ||
-                  \ (exists('&t_Co') && !empty(&t_Co) && &t_Co >= 256)
-let s:wants_color = get(g:, 'chromatine_wants_color', !exists('$NO_COLOR'))
+if !(has('gui_running') || &t_Co >= 256) | finish | endif
 
-let s:more_shades = s:has_color && s:wants_color
+let s:accent = get(g:, 'chromatine_accent', { 'light': 32, 'dark': 75 })
 
-hi Normal ctermfg=NONE ctermbg=NONE
+" Helper functions {{{
+command! -nargs=+ Hi :call s:hi(<f-args>)
+
+function! s:c(xc)
+	if a:xc <# 16
+		echoerr 'colors 0-15 are terminal specific and cannot be converted'
+		return
+	endif
+	if a:xc <# 232
+		let l:clamp = float2nr(a:xc) - 16
+		let l:r = l:clamp / 36
+		let l:r_r = float2nr(fmod(l:clamp, 36))
+		let l:g = l:r_r / 6
+		let l:b = float2nr(fmod(l:r_r, 6))
+		return printf('#%02x%02x%02x',
+		            \ l:r ? l:r * 40 + 55 : 0,
+		            \ l:g ? l:g * 40 + 55 : 0,
+		            \ l:b ? l:b * 40 + 55 : 0)
+	endif
+	if a:xc <# 256
+		let l:clamp = a:xc - 232
+		let l:level = l:clamp * 10 + 8
+		return printf('#%02x%02x%02x', l:level, l:level, l:level)
+	endif
+	echoerr 'not a valid XTerm color'
+endfunction
+
+let s:color_map = {'ctermbg': 'guibg', 'ctermfg': 'guifg'}
+function! s:hi(...)
+	let l:group = a:1
+	let l:rest = {}
+	let l:i = 1
+	while l:i <# a:0
+		let l:kwarg = split(a:000[l:i], '=')
+		let l:key = l:kwarg[0]
+		let l:rest[l:key] = l:kwarg[1]
+
+		if has_key(s:color_map, l:key)
+			let l:mapped_key = s:color_map[l:key]
+			if !has_key(l:rest, l:mapped_key)
+				let l:v = l:kwarg[1]
+				if l:v ==# 'NONE' || l:v ==# 'bg' || l:v ==# 'fg'
+					let l:rest[l:mapped_key] = l:v
+				else
+					let l:rest[l:mapped_key] = s:c(str2nr(l:v))
+				endif
+			endif
+		endif
+
+		let l:i += 1
+	endwhile
+	let l:cmd = 'hi '.l:group
+	for kw in keys(l:rest)
+		let l:cmd .= ' '.kw.'='.l:rest[kw]
+	endfor
+	execute l:cmd
+endfunction
+" }}}
+
 if &background ==# 'light'
-	hi Normal guifg=Black guibg=White
+	Hi Normal ctermfg=235 ctermbg=231
+	Hi VertSplit ctermfg=254 ctermbg=254
+	execute 'Hi IncSearch ctermfg='.s:accent['light']
+	execute 'Hi MatchParen ctermfg='.s:accent['light']
+	Hi Pmenu ctermfg=255 ctermbg=241
+	execute 'Hi PmenuSel ctermbg='.s:accent['light']
+	Hi Search ctermfg=222 ctermbg=fg
+	Hi StatusLine ctermfg=240
+	Hi StatusLineNC ctermbg=254
+	Hi TabLine ctermfg=240 ctermbg=254
+	Hi TabLineFill ctermfg=254
+	execute 'Hi Visual ctermfg=bg ctermbg='.s:accent['light']
+	execute 'Hi WarningMsg ctermfg='.s:accent['light']
+
+	if has('diff')
+		Hi DiffAdd ctermbg=194
+		Hi DiffChange ctermbg=255
+		Hi DiffDelete ctermbg=224
+		Hi DiffText ctermbg=228
+	endif
+
+	if has('folding')
+		execute 'Hi Folded ctermfg='.s:accent['light']
+	endif
+
+	if has('syntax')
+		Hi ColorColumn ctermfg=254
+		Hi CursorColumn ctermbg=254
+		Hi CursorLine ctermbg=254
+
+		Hi Comment ctermfg=243
+		Hi Statement ctermfg=242
+		execute 'Hi Todo ctermfg='.s:accent['light']
+	endif
+
+	if has('terminal')
+		Hi StatusLineTerm ctermfg=240
+		Hi StatusLineTermNC ctermbg=254
+	endif
 else
-	hi Normal guifg=White guibg=Black
+	Hi Normal ctermfg=253 ctermbg=235
+	Hi VertSplit ctermfg=237 ctermbg=237
+	execute 'Hi IncSearch ctermfg='.s:accent['dark']
+	execute 'Hi MatchParen ctermfg='.s:accent['dark']
+	Hi Pmenu ctermfg=255 ctermbg=244
+	execute 'Hi PmenuSel ctermbg='.s:accent['dark']
+	Hi Search ctermfg=222 ctermbg=bg
+	Hi StatusLine ctermfg=250
+	Hi StatusLineNC ctermbg=237
+	Hi TabLine ctermfg=250 ctermbg=237
+	Hi TabLineFill ctermfg=237
+	execute 'Hi Visual ctermfg=bg ctermbg='.s:accent['dark']
+	execute 'Hi WarningMsg ctermfg='.s:accent['dark']
+
+	if has('diff')
+		Hi DiffAdd ctermbg=65
+		Hi DiffChange ctermbg=236
+		Hi DiffDelete ctermbg=95
+		Hi DiffText ctermbg=58
+	endif
+
+	if has('folding')
+		execute 'Hi Folded ctermfg='.s:accent['dark']
+	endif
+
+	if has('syntax')
+		Hi ColorColumn ctermfg=237
+		Hi CursorColumn ctermbg=237
+		Hi CursorLine ctermbg=237
+
+		Hi Comment ctermfg=246
+		execute 'Hi Todo ctermfg='.s:accent['dark']
+	endif
+
+	if has('terminal')
+		Hi StatusLineTerm ctermfg=250
+		Hi StatusLineTermNC ctermbg=237
+	endif
 endif
 
-" Monochrome {{{
-
-hi Directory term=NONE ctermfg=NONE guifg=NONE
-" hi link EndOfBuffer NonText
-hi ErrorMsg term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
-" hi VertSplit
-" hi IncSearch
-hi LineNr term=NONE ctermfg=NONE guifg=NONE
-hi CursorLineNr cterm=bold ctermfg=NONE guifg=NONE
-hi MatchParen cterm=reverse ctermbg=NONE guibg=NONE
-hi ModeMsg term=NONE cterm=NONE gui=NONE
-hi MoreMsg term=NONE ctermfg=NONE gui=NONE guifg=NONE
-hi NonText term=NONE ctermfg=NONE gui=NONE guifg=NONE
-hi Pmenu term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guibg=NONE
-" TODO PmenuSel there looks to be a bug with Vim not clearing escape codes?
-hi PmenuSel ctermfg=NONE ctermbg=NONE guibg=NONE
-hi PmenuSbar ctermbg=NONE guibg=NONE
-hi PmenuThumb ctermbg=NONE guibg=NONE
-hi Question term=NONE ctermfg=NONE gui=NONE guifg=NONE
-" hi link QuickFixLine Search
-hi Search cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
-hi SpecialKey term=NONE ctermfg=NONE guifg=NONE
-hi StatusLine term=reverse cterm=reverse gui=reverse
-hi StatusLineNC term=NONE cterm=NONE gui=NONE
-hi TabLine term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guibg=NONE
-" hi TabLineFill
-hi TabLineSel term=NONE cterm=NONE gui=NONE
-hi Title cterm=bold ctermfg=NONE gui=bold guifg=NONE
-hi Visual term=reverse cterm=reverse ctermbg=NONE gui=reverse guibg=NONE
-hi WarningMsg term=reverse cterm=reverse ctermfg=NONE gui=reverse guifg=NONE
-
-if has('clipboard')
-	" Same as Visual; ignore the distinction when using monochrome.
-	hi VisualNOS term=reverse cterm=reverse gui=reverse
-endif
+Hi ErrorMsg ctermfg=160 ctermbg=231
+Hi LineNr ctermfg=246
+Hi MatchParen cterm=bold gui=bold
+Hi NonText cterm=NONE ctermfg=246 gui=NONE
+Hi Pmenu cterm=NONE gui=NONE
+Hi PmenuSel ctermfg=231
+Hi PmenuSbar ctermbg=fg
+Hi PmenuThumb ctermbg=240
+Hi SpecialKey cterm=NONE ctermfg=246 gui=NONE
+Hi TabLine cterm=NONE gui=NONE
+Hi Visual cterm=NONE ctermfg=bg gui=NONE
 
 if has('diff')
-	hi DiffAdd cterm=bold ctermbg=NONE gui=bold guibg=NONE
-	hi DiffChange cterm=bold ctermbg=NONE gui=bold guibg=NONE
-	hi DiffDelete cterm=bold ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
-	hi DiffText cterm=reverse ctermbg=NONE gui=reverse guibg=NONE
+	Hi DiffAdd cterm=NONE ctermfg=fg gui=NONE
+	Hi DiffChange cterm=NONE gui=NONE
+	Hi DiffDelete cterm=NONE ctermfg=fg gui=NONE
+	Hi DiffText cterm=bold gui=bold
 endif
 
 if has('folding')
-	hi Folded term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
-	hi FoldColumn term=NONE ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
+	Hi Folded cterm=NONE gui=NONE
 endif
 
-" TODO Do any of the GUIs actually care about these settings? (only tried in
-" GTK+, admittedly)
-" if has('menu')
-" 	hi ToolbarLine term=underline ctermbg=LightGrey guibg=Blue
-" 	hi ToolbarButton cterm=bold ctermfg=White ctermbg=DarkGrey gui=bold guifg=White guibg=Grey40
-" endif
-
-if has('spell')
-	hi SpellBad term=underline cterm=underline ctermbg=NONE guisp=NONE
-	hi SpellCap term=underline cterm=underline ctermbg=NONE guisp=NONE
-	hi SpellLocal term=underline cterm=underline ctermbg=NONE guisp=NONE
-	hi SpellRare term=NONE ctermbg=NONE guisp=NONE
-endif
 
 if has('syntax')
-	hi ColorColumn cterm=reverse ctermbg=NONE gui=reverse guibg=NONE
-	hi CursorColumn term=NONE ctermbg=NONE guibg=NONE
-	hi CursorLine term=NONE cterm=NONE guibg=NONE
-
-	hi Comment term=NONE ctermfg=NONE guifg=NONE
-	hi Constant term=NONE ctermfg=NONE guifg=NONE
-	hi Special term=NONE ctermfg=NONE guifg=NONE
-	hi Identifier term=NONE cterm=NONE ctermfg=NONE guifg=NONE
-	hi Statement term=NONE ctermfg=NONE gui=NONE guifg=NONE
-	hi PreProc term=NONE ctermfg=NONE guifg=NONE
-	hi Type term=NONE ctermfg=NONE gui=NONE guifg=NONE
-	hi Underlined ctermfg=NONE guifg=NONE
-	hi Ignore ctermfg=NONE guifg=NONE
-	hi Error cterm=reverse ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
-	hi Todo term=NONE ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
-endif
-
-if has('wildmenu')
-	hi WildMenu term=NONE ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
-endif
-
-if has('conceal')
-	hi Conceal ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE
-endif
-
-if has('signs')
-	hi SignColumn term=NONE ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
-endif
-
-if has('terminal')
-	hi StatusLineTerm term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
-	hi StatusLineTermNC term=NONE ctermfg=NONE ctermbg=NONE guifg=NONE guibg=NONE
-endif
-
-" }}}
-
-" More shades {{{
-
-if !s:more_shades | finish | endif
-
-if &background ==# 'light'
-	hi Normal ctermfg=235 ctermbg=231 guifg=#262626 guibg=#ffffff
-	hi VertSplit ctermfg=254 ctermbg=254 guifg=#e4e4e4 guibg=#e4e4e4
-	hi Search ctermfg=222 ctermbg=fg guifg=#ffd787 guibg=fg
-	hi StatusLine ctermfg=240 guifg=#585858
-	hi StatusLineNC ctermbg=254 guibg=#e4e4e4
-	hi TabLine ctermfg=240 ctermbg=254 guifg=#585858 guibg=#e4e4e4
-	hi TabLineFill ctermfg=254 guifg=#e4e4e4
-
-	if has('diff')
-		hi DiffAdd ctermfg=194 guifg=#d7ffd7
-		hi DiffChange ctermbg=255 guibg=#eeeeee
-		hi DiffDelete ctermfg=224 guifg=#ffd7d7
-		hi DiffText ctermbg=153 guibg=#afd7ff
-	endif
-
-	if has('syntax')
-		hi ColorColumn ctermfg=254 guifg=#e4e4e4
-		hi CursorColumn ctermbg=254 guibg=#e4e4e4
-		hi CursorLine ctermbg=254 guibg=#e4e4e4
-
-		hi Comment ctermfg=243 guifg=#767676
-		hi Todo ctermfg=115 guifg=#87d7af
-	endif
-
-	if has('terminal')
-		hi StatusLineTerm ctermfg=240 guifg=#585858
-		hi StatusLineTermNC ctermbg=254 guibg=#e4e4e4
-	endif
-else
-	hi Normal ctermfg=253 ctermbg=235 guifg=#dadada guibg=#262626
-	hi VertSplit ctermfg=237 ctermbg=237 guifg=#3a3a3a guibg=#3a3a3a
-	hi Search ctermfg=222 ctermbg=bg guifg=#ffd787 guibg=bg
-	hi StatusLine ctermfg=250 guifg=#bcbcbc
-	hi StatusLineNC ctermbg=237 guibg=#3a3a3a
-	hi TabLine ctermfg=250 ctermbg=237 guifg=#bcbcbc guibg=#3a3a3a
-	hi TabLineFill ctermfg=237 guifg=#3a3a3a
-
-	if has('diff')
-		hi DiffAdd ctermfg=65 guifg=#5f875f
-		hi DiffChange ctermbg=236 guibg=#303030
-		hi DiffDelete ctermfg=95 guifg=#875f5f
-		hi DiffText ctermbg=24 guibg=#005f87
-	endif
-
-	if has('syntax')
-		hi ColorColumn ctermfg=237 guifg=#3a3a3a
-		hi CursorColumn ctermbg=237 guibg=#3a3a3a
-		hi CursorLine ctermbg=237 guibg=#3a3a3a
-
-		hi Comment ctermfg=246 guifg=#949494
-		hi Todo ctermfg=29 guifg=#00875f
-	endif
-
-	if has('terminal')
-		hi StatusLineTerm ctermfg=250 guifg=#bcbcbc
-		hi StatusLineTermNC ctermbg=237 guibg=#3a3a3a
-	endif
-endif
-
-hi LineNr ctermfg=246 guifg=#949494
-hi NonText cterm=NONE ctermfg=246 gui=NONE guifg=#949494
-hi Pmenu cterm=NONE ctermfg=bg ctermbg=fg gui=NONE guifg=bg guibg=fg
-hi PmenuSel ctermfg=fg ctermbg=bg guifg=fg guibg=bg
-hi PmenuSbar ctermbg=fg guibg=fg
-hi PmenuThumb ctermbg=240 guibg=#585858
-hi TabLine cterm=NONE gui=NONE
-hi Visual cterm=NONE ctermfg=bg ctermbg=fg gui=NONE guifg=bg guibg=fg
-
-if has('diff')
-	hi DiffAdd cterm=NONE,reverse ctermbg=fg gui=reverse guibg=fg
-	hi DiffChange cterm=NONE gui=NONE
-	hi DiffDelete cterm=NONE,reverse ctermbg=fg gui=reverse guibg=fg
-	hi DiffText cterm=bold gui=bold
-endif
-
-if has('syntax')
-	hi ColorColumn ctermbg=fg guibg=fg
-	hi Todo cterm=reverse ctermbg=bg gui=reverse
+	Hi ColorColumn ctermbg=fg
+	Hi Todo cterm=bold gui=bold
 endif
 
 if has('clipboard')
-	hi VisualNOS cterm=NONE ctermfg=bg ctermbg=fg gui=NONE guifg=bg guibg=fg
+	Hi VisualNOS cterm=NONE ctermfg=bg ctermbg=fg gui=NONE
 endif
 
-" TODO this does not belong here
-hi SignifySignChange cterm=bold ctermbg=NONE gui=bold guibg=NONE
-
+" Cleanup {{{
+delcommand Hi
 " }}}
+
+" vim: noet fdm=marker ts=8
