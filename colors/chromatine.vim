@@ -1,7 +1,7 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.1.1
+" Version: 0.1.2
 " Source: https://github.com/casr/vim-colors-chromatine
 " Modified: 2022 Mar 5
 
@@ -48,12 +48,12 @@ function! s:hi(...)
 	while l:i <# a:0
 		let l:kwarg = split(a:000[l:i], '=')
 		let l:key = l:kwarg[0]
-		let l:rest[l:key] = l:kwarg[1]
+		let l:v = get(s:accent, l:kwarg[1], l:kwarg[1])
+		let l:rest[l:key] = l:v
 
 		if has_key(s:color_map, l:key)
 			let l:mapped_key = s:color_map[l:key]
 			if !has_key(l:rest, l:mapped_key)
-				let l:v = l:kwarg[1]
 				if l:v ==# 'NONE' || l:v ==# 'bg' || l:v ==# 'fg'
 					let l:rest[l:mapped_key] = l:v
 				else
@@ -75,17 +75,17 @@ endfunction
 if &background ==# 'light'
 	Hi Normal ctermfg=235 ctermbg=231
 	Hi VertSplit ctermfg=254 ctermbg=254
-	execute 'Hi IncSearch ctermfg='.s:accent['light']
-	execute 'Hi MatchParen ctermfg='.s:accent['light']
+	Hi IncSearch ctermfg=light
+	Hi MatchParen ctermfg=light
 	Hi Pmenu ctermfg=255 ctermbg=241
-	execute 'Hi PmenuSel ctermbg='.s:accent['light']
+	Hi PmenuSel ctermbg=light
 	Hi Search ctermfg=222 ctermbg=fg
 	Hi StatusLine ctermfg=240
 	Hi StatusLineNC ctermbg=254
 	Hi TabLine ctermfg=240 ctermbg=254
 	Hi TabLineFill ctermfg=254
-	execute 'Hi Visual ctermfg=bg ctermbg='.s:accent['light']
-	execute 'Hi WarningMsg ctermfg='.s:accent['light']
+	Hi Visual ctermfg=bg ctermbg=light
+	Hi WarningMsg ctermfg=light
 
 	if has('diff')
 		Hi DiffAdd ctermbg=194
@@ -95,7 +95,7 @@ if &background ==# 'light'
 	endif
 
 	if has('folding')
-		execute 'Hi Folded ctermfg='.s:accent['light']
+		Hi Folded ctermfg=light
 	endif
 
 	if has('syntax')
@@ -105,7 +105,7 @@ if &background ==# 'light'
 
 		Hi Comment ctermfg=243
 		Hi Statement ctermfg=242
-		execute 'Hi Todo ctermfg='.s:accent['light']
+		Hi Todo ctermfg=light
 	endif
 
 	if has('terminal')
@@ -115,17 +115,17 @@ if &background ==# 'light'
 else
 	Hi Normal ctermfg=253 ctermbg=235
 	Hi VertSplit ctermfg=237 ctermbg=237
-	execute 'Hi IncSearch ctermfg='.s:accent['dark']
-	execute 'Hi MatchParen ctermfg='.s:accent['dark']
+	Hi IncSearch ctermfg=dark
+	Hi MatchParen ctermfg=dark
 	Hi Pmenu ctermfg=255 ctermbg=244
-	execute 'Hi PmenuSel ctermbg='.s:accent['dark']
+	Hi PmenuSel ctermbg=dark
 	Hi Search ctermfg=222 ctermbg=bg
 	Hi StatusLine ctermfg=250
 	Hi StatusLineNC ctermbg=237
 	Hi TabLine ctermfg=250 ctermbg=237
 	Hi TabLineFill ctermfg=237
-	execute 'Hi Visual ctermfg=bg ctermbg='.s:accent['dark']
-	execute 'Hi WarningMsg ctermfg='.s:accent['dark']
+	Hi Visual ctermfg=bg ctermbg=dark
+	Hi WarningMsg ctermfg=dark
 
 	if has('diff')
 		Hi DiffAdd ctermbg=65
@@ -135,7 +135,7 @@ else
 	endif
 
 	if has('folding')
-		execute 'Hi Folded ctermfg='.s:accent['dark']
+		Hi Folded ctermfg=dark
 	endif
 
 	if has('syntax')
@@ -144,7 +144,7 @@ else
 		Hi CursorLine ctermbg=237
 
 		Hi Comment ctermfg=246
-		execute 'Hi Todo ctermfg='.s:accent['dark']
+		Hi Todo ctermfg=dark
 	endif
 
 	if has('terminal')
