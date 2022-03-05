@@ -1,9 +1,9 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.1.0
+" Version: 0.1.1
 " Source: https://github.com/casr/vim-colors-chromatine
-" Modified: 2020 May 3
+" Modified: 2022 Mar 5
 
 " Resets highlighting groups to defaults and then removes all colour
 runtime colors/normalise.vim
@@ -24,10 +24,9 @@ function! s:c(xc)
 	endif
 	if a:xc <# 232
 		let l:clamp = float2nr(a:xc) - 16
-		let l:r = l:clamp / 36
-		let l:r_r = float2nr(fmod(l:clamp, 36))
-		let l:g = l:r_r / 6
-		let l:b = float2nr(fmod(l:r_r, 6))
+		let l:r = float2nr(l:clamp / 36)
+		let l:g = float2nr(fmod(l:clamp / 6, 6))
+		let l:b = float2nr(fmod(l:clamp, 6))
 		return printf('#%02x%02x%02x',
 		            \ l:r ? l:r * 40 + 55 : 0,
 		            \ l:g ? l:g * 40 + 55 : 0,
