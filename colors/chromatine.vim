@@ -1,7 +1,7 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.1.2
+" Version: 0.2.0
 " Source: https://github.com/casr/vim-colors-chromatine
 " Modified: 2022 Mar 5
 
@@ -74,18 +74,18 @@ endfunction
 
 if &background ==# 'light'
 	Hi Normal ctermfg=235 ctermbg=231
-	Hi VertSplit ctermfg=254 ctermbg=254
-	Hi IncSearch ctermfg=light
+	Hi VertSplit ctermfg=250 ctermbg=254
+	Hi IncSearch ctermfg=bg ctermbg=light
 	Hi MatchParen ctermfg=light
 	Hi Pmenu ctermfg=255 ctermbg=241
 	Hi PmenuSel ctermbg=light
-	Hi Search ctermfg=222 ctermbg=fg
-	Hi StatusLine ctermfg=240
+	Hi Search ctermfg=fg ctermbg=222
+	Hi StatusLine ctermfg=bg ctermbg=240
 	Hi StatusLineNC ctermbg=254
 	Hi TabLine ctermfg=240 ctermbg=254
-	Hi TabLineFill ctermfg=254
+	Hi TabLineFill ctermbg=254
 	Hi Visual ctermfg=bg ctermbg=light
-	Hi WarningMsg ctermfg=light
+	Hi WarningMsg ctermfg=bg ctermbg=light
 
 	if has('diff')
 		Hi DiffAdd ctermbg=194
@@ -99,33 +99,34 @@ if &background ==# 'light'
 	endif
 
 	if has('syntax')
-		Hi ColorColumn ctermfg=254
+		Hi ColorColumn ctermfg=fg ctermbg=254
 		Hi CursorColumn ctermbg=254
 		Hi CursorLine ctermbg=254
 
 		Hi Comment ctermfg=243
 		Hi Statement ctermfg=242
+		Hi Error ctermbg=224
 		Hi Todo ctermfg=light
 	endif
 
 	if has('terminal')
-		Hi StatusLineTerm ctermfg=240
+		Hi StatusLineTerm ctermfg=bg ctermbg=240
 		Hi StatusLineTermNC ctermbg=254
 	endif
 else
 	Hi Normal ctermfg=253 ctermbg=235
-	Hi VertSplit ctermfg=237 ctermbg=237
-	Hi IncSearch ctermfg=dark
+	Hi VertSplit ctermfg=240 ctermbg=237
+	Hi IncSearch ctermfg=bg ctermbg=dark
 	Hi MatchParen ctermfg=dark
 	Hi Pmenu ctermfg=255 ctermbg=244
 	Hi PmenuSel ctermbg=dark
-	Hi Search ctermfg=222 ctermbg=bg
-	Hi StatusLine ctermfg=250
+	Hi Search ctermfg=bg ctermbg=222
+	Hi StatusLine ctermfg=bg ctermbg=250
 	Hi StatusLineNC ctermbg=237
 	Hi TabLine ctermfg=250 ctermbg=237
-	Hi TabLineFill ctermfg=237
+	Hi TabLineFill ctermbg=237
 	Hi Visual ctermfg=bg ctermbg=dark
-	Hi WarningMsg ctermfg=dark
+	Hi WarningMsg ctermfg=bg ctermbg=dark
 
 	if has('diff')
 		Hi DiffAdd ctermbg=65
@@ -139,21 +140,24 @@ else
 	endif
 
 	if has('syntax')
-		Hi ColorColumn ctermfg=237
+		Hi ColorColumn ctermfg=fg ctermbg=237
 		Hi CursorColumn ctermbg=237
 		Hi CursorLine ctermbg=237
 
 		Hi Comment ctermfg=246
+		Hi Error ctermbg=95
 		Hi Todo ctermfg=dark
 	endif
 
 	if has('terminal')
-		Hi StatusLineTerm ctermfg=250
+		Hi StatusLineTerm ctermfg=bg ctermbg=250
 		Hi StatusLineTermNC ctermbg=237
 	endif
 endif
 
-Hi ErrorMsg ctermfg=160 ctermbg=231
+Hi VertSplit cterm=NONE gui=NONE
+Hi IncSearch cterm=NONE gui=NONE
+Hi ErrorMsg cterm=NONE ctermfg=231 ctermbg=160 gui=NONE
 Hi LineNr ctermfg=246
 Hi MatchParen cterm=bold gui=bold
 Hi NonText cterm=NONE ctermfg=246 gui=NONE
@@ -161,9 +165,13 @@ Hi Pmenu cterm=NONE gui=NONE
 Hi PmenuSel ctermfg=231
 Hi PmenuSbar ctermbg=fg
 Hi PmenuThumb ctermbg=240
+Hi Search cterm=NONE gui=NONE
 Hi SpecialKey cterm=NONE ctermfg=246 gui=NONE
+Hi StatusLine cterm=NONE gui=NONE
 Hi TabLine cterm=NONE gui=NONE
-Hi Visual cterm=NONE ctermfg=bg gui=NONE
+Hi TabLineFill cterm=NONE gui=NONE
+Hi Visual cterm=NONE gui=NONE
+Hi WarningMsg cterm=NONE gui=NONE
 
 if has('diff')
 	Hi DiffAdd cterm=NONE ctermfg=fg gui=NONE
@@ -178,12 +186,17 @@ endif
 
 
 if has('syntax')
-	Hi ColorColumn ctermbg=fg
+	Hi ColorColumn cterm=NONE gui=NONE
 	Hi Todo cterm=bold gui=bold
+	Hi Error cterm=NONE gui=NONE
 endif
 
 if has('clipboard')
 	Hi VisualNOS cterm=NONE ctermfg=bg ctermbg=fg gui=NONE
+endif
+
+if has('terminal')
+	Hi StatusLineTerm cterm=NONE gui=NONE
 endif
 
 " Cleanup {{{
