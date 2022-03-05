@@ -1,7 +1,7 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.2.0
+" Version: 0.3.0
 " Source: https://github.com/casr/vim-colors-chromatine
 " Modified: 2022 Mar 5
 
@@ -83,14 +83,14 @@ if &background ==# 'light'
 	Hi StatusLine ctermfg=bg ctermbg=240
 	Hi StatusLineNC ctermbg=254
 	Hi TabLine ctermfg=240 ctermbg=254
-	Hi TabLineFill ctermbg=254
+	Hi TabLineFill ctermbg=240
 	Hi Visual ctermfg=bg ctermbg=light
 	Hi WarningMsg ctermfg=bg ctermbg=light
 
 	if has('diff')
-		Hi DiffAdd ctermbg=194
+		Hi DiffAdd ctermfg=fg ctermbg=194
 		Hi DiffChange ctermbg=255
-		Hi DiffDelete ctermbg=224
+		Hi DiffDelete ctermfg=fg ctermbg=224
 		Hi DiffText ctermbg=228
 	endif
 
@@ -114,7 +114,7 @@ if &background ==# 'light'
 		Hi StatusLineTermNC ctermbg=254
 	endif
 else
-	Hi Normal ctermfg=253 ctermbg=235
+	Hi Normal ctermfg=253 ctermbg=234
 	Hi VertSplit ctermfg=240 ctermbg=237
 	Hi IncSearch ctermfg=bg ctermbg=dark
 	Hi MatchParen ctermfg=dark
@@ -124,14 +124,14 @@ else
 	Hi StatusLine ctermfg=bg ctermbg=250
 	Hi StatusLineNC ctermbg=237
 	Hi TabLine ctermfg=250 ctermbg=237
-	Hi TabLineFill ctermbg=237
+	Hi TabLineFill ctermbg=250
 	Hi Visual ctermfg=bg ctermbg=dark
 	Hi WarningMsg ctermfg=bg ctermbg=dark
 
 	if has('diff')
-		Hi DiffAdd ctermbg=65
+		Hi DiffAdd ctermfg=fg ctermbg=65
 		Hi DiffChange ctermbg=236
-		Hi DiffDelete ctermbg=95
+		Hi DiffDelete ctermfg=fg ctermbg=95
 		Hi DiffText ctermbg=58
 	endif
 
@@ -174,9 +174,9 @@ Hi Visual cterm=NONE gui=NONE
 Hi WarningMsg cterm=NONE gui=NONE
 
 if has('diff')
-	Hi DiffAdd cterm=NONE ctermfg=fg gui=NONE
+	Hi DiffAdd cterm=NONE gui=NONE
 	Hi DiffChange cterm=NONE gui=NONE
-	Hi DiffDelete cterm=NONE ctermfg=fg gui=NONE
+	Hi DiffDelete cterm=NONE gui=NONE
 	Hi DiffText cterm=bold gui=bold
 endif
 
