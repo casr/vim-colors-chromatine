@@ -1,9 +1,9 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.4.0
+" Version: 0.5.0
 " Source: https://github.com/casr/vim-colors-chromatine
-" Modified: 2022 Mar 5
+" Last change: 2022 Aug 5
 
 hi clear
 if exists('syntax_on')
@@ -280,6 +280,18 @@ if has('syntax')
 	Hi ColorColumn cterm=NONE gui=NONE
 	Hi Todo cterm=bold gui=bold
 	Hi Error cterm=NONE gui=NONE
+
+	" ft:diff {{{
+	hi! link diffAdded DiffAdd
+	hi! link diffChanged DiffChange
+	hi! link diffRemoved DiffDelete
+	hi! link diffSubname Comment
+	hi! link diffLine Comment
+	hi! link diffFile Comment
+	hi! link diffOldFile Comment
+	hi! link diffNewFile Comment
+	hi! link diffIndexLine Comment
+	" }}}
 endif
 
 if has('clipboard')
