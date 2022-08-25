@@ -1,9 +1,9 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.5.0
+" Version: 0.5.1
 " Source: https://github.com/casr/vim-colors-chromatine
-" Last change: 2022 Aug 5
+" Modified: 2022 Aug 25
 
 hi clear
 if exists('syntax_on')
@@ -18,27 +18,35 @@ let g:colors_name = 'chromatine'
 
 hi Normal ctermfg=NONE ctermbg=NONE
 
-hi Directory term=NONE ctermfg=NONE guifg=NONE
-hi ErrorMsg term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
+hi Visual term=reverse cterm=reverse ctermbg=NONE gui=reverse guibg=NONE
 hi LineNr term=NONE ctermfg=NONE guifg=NONE
-hi CursorLineNr cterm=bold ctermfg=NONE guifg=NONE
 hi MatchParen term=bold cterm=bold ctermbg=NONE guibg=NONE
-hi ModeMsg term=NONE cterm=NONE gui=NONE
-hi MoreMsg term=NONE ctermfg=NONE gui=NONE guifg=NONE
+
 hi NonText term=NONE ctermfg=NONE gui=NONE guifg=NONE
+hi SpecialKey term=NONE ctermfg=NONE guifg=NONE
+
 hi Pmenu term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guibg=NONE
 hi PmenuSel ctermfg=NONE ctermbg=NONE guibg=NONE
 hi PmenuSbar ctermbg=NONE guibg=NONE
 hi PmenuThumb ctermbg=NONE guibg=NONE
-hi Question term=NONE ctermfg=NONE gui=NONE guifg=NONE
-hi Search cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
-hi SpecialKey term=NONE ctermfg=NONE guifg=NONE
+
 hi StatusLine term=reverse cterm=reverse gui=reverse
 hi StatusLineNC term=NONE cterm=NONE gui=NONE
+
 hi TabLine term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guibg=NONE
 hi TabLineSel term=NONE cterm=NONE gui=NONE
+
 hi Title cterm=bold ctermfg=NONE gui=bold guifg=NONE
-hi Visual term=reverse cterm=reverse ctermbg=NONE gui=reverse guibg=NONE
+hi Directory term=NONE ctermfg=NONE guifg=NONE
+
+hi CursorLineNr cterm=bold ctermfg=NONE guifg=NONE
+
+hi Search cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
+
+hi ErrorMsg term=reverse cterm=reverse ctermfg=NONE ctermbg=NONE gui=reverse guifg=NONE guibg=NONE
+hi ModeMsg term=NONE cterm=NONE gui=NONE
+hi MoreMsg term=NONE ctermfg=NONE gui=NONE guifg=NONE
+hi Question term=NONE ctermfg=NONE gui=NONE guifg=NONE
 hi WarningMsg term=reverse cterm=reverse ctermfg=NONE gui=reverse guifg=NONE
 
 if has('clipboard')
@@ -166,17 +174,23 @@ endfunction
 
 if &background ==# 'light'
 	Hi Normal ctermfg=235 ctermbg=231
+
+	Hi Visual ctermfg=bg ctermbg=light
 	Hi VertSplit ctermfg=250 ctermbg=254
-	Hi IncSearch ctermfg=bg ctermbg=light
 	Hi MatchParen ctermfg=light
+
 	Hi Pmenu ctermfg=255 ctermbg=241
 	Hi PmenuSel ctermbg=light
-	Hi Search ctermfg=fg ctermbg=222
+
 	Hi StatusLine ctermfg=bg ctermbg=240
 	Hi StatusLineNC ctermbg=254
+
 	Hi TabLine ctermfg=240 ctermbg=254
 	Hi TabLineFill ctermbg=240
-	Hi Visual ctermfg=bg ctermbg=light
+
+	Hi Search ctermfg=fg ctermbg=222
+	Hi IncSearch ctermfg=bg ctermbg=light
+
 	Hi WarningMsg ctermfg=bg ctermbg=light
 
 	if has('diff')
@@ -207,17 +221,23 @@ if &background ==# 'light'
 	endif
 else
 	Hi Normal ctermfg=253 ctermbg=234
+
+	Hi Visual ctermfg=bg ctermbg=dark
 	Hi VertSplit ctermfg=240 ctermbg=237
-	Hi IncSearch ctermfg=bg ctermbg=dark
 	Hi MatchParen ctermfg=dark
+
 	Hi Pmenu ctermfg=255 ctermbg=244
 	Hi PmenuSel ctermbg=dark
-	Hi Search ctermfg=bg ctermbg=222
+
 	Hi StatusLine ctermfg=bg ctermbg=250
 	Hi StatusLineNC ctermbg=237
+
 	Hi TabLine ctermfg=250 ctermbg=237
 	Hi TabLineFill ctermbg=250
-	Hi Visual ctermfg=bg ctermbg=dark
+
+	Hi Search ctermfg=bg ctermbg=222
+	Hi IncSearch ctermfg=bg ctermbg=dark
+
 	Hi WarningMsg ctermfg=bg ctermbg=dark
 
 	if has('diff')
@@ -247,23 +267,33 @@ else
 	endif
 endif
 
+Hi Visual cterm=NONE gui=NONE
 Hi VertSplit cterm=NONE gui=NONE
-Hi IncSearch cterm=NONE gui=NONE
-Hi ErrorMsg cterm=NONE ctermfg=231 ctermbg=160 gui=NONE
 Hi LineNr ctermfg=246
 Hi MatchParen cterm=bold gui=bold
+
 Hi NonText cterm=NONE ctermfg=246 gui=NONE
+Hi SpecialKey cterm=NONE ctermfg=246 gui=NONE
+
 Hi Pmenu cterm=NONE gui=NONE
 Hi PmenuSel ctermfg=231
 Hi PmenuSbar ctermbg=fg
 Hi PmenuThumb ctermbg=240
-Hi Search cterm=NONE gui=NONE
-Hi SpecialKey cterm=NONE ctermfg=246 gui=NONE
+
 Hi StatusLine cterm=NONE gui=NONE
+
 Hi TabLine cterm=NONE gui=NONE
 Hi TabLineFill cterm=NONE gui=NONE
-Hi Visual cterm=NONE gui=NONE
+
+Hi Search cterm=NONE gui=NONE
+Hi IncSearch cterm=NONE gui=NONE
+
+Hi ErrorMsg cterm=NONE ctermfg=231 ctermbg=160 gui=NONE
 Hi WarningMsg cterm=NONE gui=NONE
+
+if has('clipboard')
+	Hi VisualNOS cterm=NONE ctermfg=bg ctermbg=fg gui=NONE
+endif
 
 if has('diff')
 	Hi DiffAdd cterm=NONE gui=NONE
@@ -292,10 +322,6 @@ if has('syntax')
 	hi! link diffNewFile Comment
 	hi! link diffIndexLine Comment
 	" }}}
-endif
-
-if has('clipboard')
-	Hi VisualNOS cterm=NONE ctermfg=bg ctermbg=fg gui=NONE
 endif
 
 if has('terminal')
