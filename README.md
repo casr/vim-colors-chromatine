@@ -37,6 +37,56 @@ let g:chromatine_accent = { 'light': 32, 'dark': 75 }
 ```
 
 
+Suggested colour palette
+------------------------
+
+The following colours are set for GUI Vim’s terminal. In the case that
+Vim is run in the terminal it will just borrow colours from your current
+Terminal’s theme.
+
+For this reason, a suggested theme is given below.
+
+Colours are defined in the sRGB colour space but you should be aware that
+some terminals such as macOS’s Terminal.app default to a different colour
+space which you will need to account for.
+
+See [`./contrib/`][contrib] for some pre-built themes.
+
+[contrib]: ./contrib/
+
+<details><summary>Light</summary>
+
+|         | Foreground | Background |     Cursor |  Selection |
+|---------|------------|------------|------------|------------|
+| sRGB    |  `#262626` |  `#FFFFFF` |  `#87AFD7` |  `#AFD7FF` |
+| xterm   |      `235` |      `231` |      `110` |      `153` |
+
+|               |     Black |       Red |     Green |    Yellow |      Blue |   Magenta |      Cyan |     White |
+|---------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| Normal, sRGB  | `#1C1C1C` | `#AF5F5F` | `#008700` | `#D78700` | `#00005F` | `#875F87` | `#5F8787` | `#DADADA` |
+| Bright, sRGB  | `#767676` |        〃 |        〃 |        〃 |        〃 |        〃 |        〃 | `#FFFFFF` |
+| Normal, xterm |     `234` |     `131` |      `28` |     `172` |      `17` |      `96` |      `66` |     `253` |
+| Bright, xterm |     `243` |        〃 |        〃 |        〃 |        〃 |        〃 |        〃 |     `231` |
+
+</details>
+
+<details><summary>Dark</summary>
+
+|         | Foreground | Background |     Cursor |  Selection |
+|---------|------------|------------|------------|------------|
+| sRGB    |  `#DADADA` |  `#1C1C1C` |  `#005FD7` |  `#005F87` |
+| xterm   |      `253` |      `234` |       `26` |       `24` |
+
+|               |     Black |       Red |     Green |    Yellow |      Blue |   Magenta |      Cyan |     White |
+|---------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+| Normal, sRGB  | `#303030` | `#AF5F5F` | `#87AF87` | `#FFD787` | `#5F5FAF` | `#AF87AF` | `#87AFAF` | `#DADADA` |
+| Bright, sRGB  | `#767676` |        〃 |        〃 |        〃 |        〃 |        〃 |        〃 | `#E4E4E4` |
+| Normal, xterm |     `236` |     `131` |     `108` |     `222` |      `61` |     `139` |     `109` |     `253` |
+| Bright, xterm |     `243` |        〃 |        〃 |        〃 |        〃 |        〃 |        〃 |     `254` |
+
+</details>
+
+
 See Also
 --------
 

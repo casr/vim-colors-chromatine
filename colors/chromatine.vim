@@ -1,9 +1,9 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.6.0
+" Version: 0.6.1
 " Source: https://github.com/casr/vim-colors-chromatine
-" Modified: 2022 Sep 02
+" Modified: 2022 Sep 04
 
 hi clear
 if exists('syntax_on')
@@ -275,6 +275,24 @@ endif
 
 if has('clipboard')
 	Hi VisualNOS ctermfg=bg ctermbg=fg
+endif
+
+let s:term_theme = &background ==# 'light'
+	\ ? ['#1c1c1c', '#af5f5f', '#008700', '#d78700', '#00005f', '#875f87', '#5f8787', '#dadada',
+           \ '#767676', '#af5f5f', '#008700', '#d78700', '#00005f', '#875f87', '#5f8787', '#ffffff']
+	\ : ['#303030', '#af5f5f', '#87af87', '#ffd787', '#5f5faf', '#af87af', '#87afaf', '#dadada',
+           \ '#767676', '#af5f5f', '#87af87', '#ffd787', '#5f5faf', '#af87af', '#87afaf', '#e4e4e4']
+
+if (has('termguicolors') && &termguicolors) || has('gui_running')
+	if has('nvim')
+		let s:i = 0
+		for c in s:term_theme
+			execute 'let g:terminal_color_' . s:i . ' = "' . c . '"'
+			let s:i += 1
+		endfor
+	else
+		let g:terminal_ansi_colors = s:term_theme
+	endif
 endif
 
 delcommand Hi
