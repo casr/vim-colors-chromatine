@@ -1,9 +1,9 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.6.1
+" Version: 0.6.2
 " Source: https://github.com/casr/vim-colors-chromatine
-" Modified: 2022 Sep 04
+" Modified: 2022 Oct 05
 
 hi clear
 if exists('syntax_on')
@@ -237,6 +237,10 @@ if &background ==# 'light'
 		Hi Comment ctermfg=240
 		Hi Error ctermbg=224
 	endif
+
+	Hi chromatineDiffAdd ctermfg=28
+	Hi chromatineDiffChange ctermfg=100
+	Hi chromatineDiffDelete ctermfg=131
 else
 	Hi Normal ctermfg=253 ctermbg=234
 
@@ -271,6 +275,10 @@ else
 		Hi Comment ctermfg=248
 		Hi Error ctermbg=52
 	endif
+
+	Hi chromatineDiffAdd ctermfg=65
+	Hi chromatineDiffChange ctermfg=142
+	Hi chromatineDiffDelete ctermfg=130
 endif
 
 if has('clipboard')
@@ -294,6 +302,51 @@ if (has('termguicolors') && &termguicolors) || has('gui_running')
 		let g:terminal_ansi_colors = s:term_theme
 	endif
 endif
+
+" Syntax tweaks {{{
+if has('syntax')
+	" ft:css {{{
+	hi link cssMediaComma NONE
+	" }}}
+
+	" ft:diff {{{
+	hi link diffAdded DiffAdd
+	hi link diffChanged DiffChange
+	hi link diffRemoved DiffDelete
+	hi link diffSubname Comment
+	hi link diffLine Comment
+	hi link diffFile Comment
+	hi link diffOldFile Comment
+	hi link diffNewFile Comment
+	hi link diffIndexLine Comment
+	" }}}
+
+	" ft:help {{{
+	hi link helpHyperTextJump chromatineHighlight
+	" }}}
+
+	" ft:typescript {{{
+	hi link typescriptSymbols NONE
+	hi link typescriptParens NONE
+	" }}}
+
+	" ft:vim {{{
+	hi link vimEmbedError NONE
+	hi link vimCommentTitle Comment
+	hi link vimUserFunc NONE
+	" }}}
+endif
+" }}}
+
+" Plugin tweaks {{{
+
+" Signify {{{
+hi link SignifySignAdd chromatineDiffAdd
+hi link SignifySignChange chromatineDiffChange
+hi link SignifySignDelete chromatineDiffDelete
+" }}}
+
+" }}}
 
 delcommand Hi
 " }}}
