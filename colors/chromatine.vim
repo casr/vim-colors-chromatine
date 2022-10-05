@@ -1,7 +1,7 @@
 " Vim color file
 " Description: Low-colour theme with light and dark variants
 " Maintainer: Chris Rawnsley <chris@puny.agency>
-" Version: 0.6.2
+" Version: 0.6.3
 " Source: https://github.com/casr/vim-colors-chromatine
 " Modified: 2022 Oct 05
 
@@ -118,6 +118,16 @@ if has('terminal')
 	hi StatusLineTermNC NONE | hi link StatusLineTermNC StatusLineNC
 endif
 
+if has('nvim')
+	hi DiagnosticError NONE
+	hi DiagnosticWarn NONE
+	hi DiagnosticInfo NONE
+	hi DiagnosticHint NONE
+	hi DiagnosticUnderlineError NONE term=underline cterm=underline gui=underline
+	hi DiagnosticUnderlineWarn NONE term=underline cterm=underline gui=underline
+	hi DiagnosticUnderlineInfo NONE term=underline cterm=underline gui=underline
+	hi DiagnosticUnderlineHint NONE term=underline cterm=underline gui=underline
+endif
 " }}}
 
 " 256 color terminal / GUI {{{
@@ -241,6 +251,13 @@ if &background ==# 'light'
 	Hi chromatineDiffAdd ctermfg=28
 	Hi chromatineDiffChange ctermfg=100
 	Hi chromatineDiffDelete ctermfg=131
+
+	if has('nvim')
+		Hi DiagnosticError ctermfg=131
+		Hi DiagnosticUnderlineError ctermfg=131
+		Hi DiagnosticWarn ctermfg=172
+		Hi DiagnosticHint ctermfg=243
+	endif
 else
 	Hi Normal ctermfg=253 ctermbg=234
 
@@ -279,6 +296,13 @@ else
 	Hi chromatineDiffAdd ctermfg=65
 	Hi chromatineDiffChange ctermfg=142
 	Hi chromatineDiffDelete ctermfg=130
+
+	if has('nvim')
+		Hi DiagnosticError ctermfg=131
+		Hi DiagnosticUnderlineError ctermfg=131
+		Hi DiagnosticWarn ctermfg=222
+		Hi DiagnosticHint ctermfg=245
+	endif
 endif
 
 if has('clipboard')
