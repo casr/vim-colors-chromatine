@@ -327,6 +327,10 @@ if (has('termguicolors') && &termguicolors) || has('gui_running')
 	endif
 endif
 
+hi LspReferenceText NONE | hi link LspReferenceText chromatineUI
+hi LspReferenceRead NONE | hi link LspReferenceRead LspReferenceText
+hi LspReferenceWrite NONE | hi link LspReferenceWrite LspReferenceText
+
 " Syntax tweaks {{{
 if has('syntax')
 	" ft:css {{{
