@@ -127,6 +127,10 @@ if has('nvim')
 	hi DiagnosticUnderlineWarn NONE term=underline cterm=underline gui=underline
 	hi DiagnosticUnderlineInfo NONE term=underline cterm=underline gui=underline
 	hi DiagnosticUnderlineHint NONE term=underline cterm=underline gui=underline
+
+	hi LspReferenceText NONE | hi link LspReferenceText chromatineUI
+	hi LspReferenceRead NONE | hi link LspReferenceRead LspReferenceText
+	hi LspReferenceWrite NONE | hi link LspReferenceWrite LspReferenceText
 endif
 " }}}
 
@@ -326,10 +330,6 @@ if (has('termguicolors') && &termguicolors) || has('gui_running')
 		let g:terminal_ansi_colors = s:term_theme
 	endif
 endif
-
-hi LspReferenceText NONE | hi link LspReferenceText chromatineUI
-hi LspReferenceRead NONE | hi link LspReferenceRead LspReferenceText
-hi LspReferenceWrite NONE | hi link LspReferenceWrite LspReferenceText
 
 " Syntax tweaks {{{
 if has('syntax')
