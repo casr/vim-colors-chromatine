@@ -8,33 +8,10 @@ A low-colour theme with light and dark variants.
     colours that are stable across terminals.
 
 <picture>
-  <source srcset="https://user-images.githubusercontent.com/566719/189227741-1b8d5e40-facf-4bfa-9fd1-5dbbbed99023.png"
-          media="(prefers-color-scheme: light)">
-  <source srcset="https://user-images.githubusercontent.com/566719/189227740-1353464b-3025-4fff-9928-cdc888f203e3.png"
+  <source srcset="https://github.com/user-attachments/assets/89b39e64-4f78-41fa-bc71-98f46e1c7a24"
           media="(prefers-color-scheme: dark)">
-  <img width="1272" alt="Terminal with Vim editing a web project" src="https://user-images.githubusercontent.com/566719/189227734-bf0a033a-1818-4487-adee-083f8b6c00f4.png">
+  <img width="1272" alt="Terminal with Vim editing a web project" src="https://github.com/user-attachments/assets/1df2bb33-84f3-4c07-b24f-00e30e998178">
 </picture>
-
-
-Using
------
-
-If you would like to adjust the accent colours, you can provide light
-and dark variants to `g:chromatine_accent` in your `$MYVIMRC`. Numbers
-correspond to the XTerm 256 palette.
-
-Some examples:
-
-```vim
-" red tint
-let g:chromatine_accent = { 'light': 160, 'dark': 203 }
-
-" green tint
-let g:chromatine_accent = { 'light': 29, 'dark': 71 }
-
-" blue tint (default)
-let g:chromatine_accent = { 'light': 32, 'dark': 75 }
-```
 
 
 Suggested colour palette
@@ -58,8 +35,8 @@ See [`./contrib/`][contrib] for some pre-built themes.
 
 |         | Foreground | Background |     Cursor |  Selection |
 |---------|------------|------------|------------|------------|
-| sRGB    |  `#262626` |  `#FFFFFF` |  `#87AFD7` |  `#AFD7FF` |
-| xterm   |      `235` |      `231` |      `110` |      `153` |
+| sRGB    |  `#262626` |  `#FFFFFF` |  `#5FFFD7` |  `#87D7FF` |
+| xterm   |      `235` |      `231` |       `86` |      `117` |
 
 |               |     Black |       Red |     Green |    Yellow |      Blue |   Magenta |      Cyan |     White |
 |---------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
@@ -74,8 +51,8 @@ See [`./contrib/`][contrib] for some pre-built themes.
 
 |         | Foreground | Background |     Cursor |  Selection |
 |---------|------------|------------|------------|------------|
-| sRGB    |  `#DADADA` |  `#1C1C1C` |  `#005FD7` |  `#005F87` |
-| xterm   |      `253` |      `234` |       `26` |       `24` |
+| sRGB    |  `#E4E4E4` |  `#3A3A3A` |  `#005F5F` |  `#121212` |
+| xterm   |      `254` |      `237` |       `23` |      `233` |
 
 |               |     Black |       Red |     Green |    Yellow |      Blue |   Magenta |      Cyan |     White |
 |---------------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
